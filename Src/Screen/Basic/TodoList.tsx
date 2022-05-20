@@ -4,10 +4,9 @@ import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { Button, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootStateType, AppDispatchType } from '../../Redux/Basic';
+import { BottomAlert, TodoItem } from '../../Component';
 import { addTodoItem, updateTodoItem, deleteTodoItem } from '../../Redux/Basic';
 import { TodoData } from '../../TodoData';
-import { BottomAlert } from '../BottomAlert/BottomAlert';
-import TodoItem from '../TodoItem/TodoItem';
 import styles from './TodoBasicStyle';
 
 export function TodoList(): React.ReactElement {

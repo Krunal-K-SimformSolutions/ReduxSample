@@ -22,9 +22,13 @@ export default function TodoItem({ item, handleDelete, handleEdit }: TodoListIte
         });
         return (
           <View style={[styles.itemView, containerStyle]}>
-            <View>
-              <Text style={styles.textTitle}>{item.title}</Text>
-              <Text style={styles.textDesc}>{item.description}</Text>
+            <View style={styles.container}>
+              <Text style={styles.textTitle} numberOfLines={1}>
+                {item.title}
+              </Text>
+              <Text style={styles.textDesc} numberOfLines={1}>
+                {item.description}
+              </Text>
             </View>
             <Pressable onPress={handleDelete(item.id)}>
               {({ pressed }) => (

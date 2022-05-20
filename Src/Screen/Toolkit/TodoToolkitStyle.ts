@@ -33,5 +33,23 @@ export default StyleSheet.create({
   },
   flatlist: {
     width: '90%'
+  },
+  btnText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    color: 'black'
+  },
+  btnView: {
+    minWidth: 50,
+    paddingVertical: 5,
+    borderRadius: 10,
+    marginLeft: 5,
+    backgroundColor: 'orange',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  btnContainer: {
+    flexDirection: 'row',
+    marginRight: -10
   }
 });

@@ -1,18 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
+import type { FetchTodoError } from './Actions';
 import type { PayloadAction, Draft } from '@reduxjs/toolkit';
 import { TodoData } from '../../TodoData';
-import { cleanAction } from './Actions';
+import { cleanAction, fetchTodoList } from './Actions';
 
 interface InitialStateType {
   todoList: TodoData[];
+  status: 'idle' | 'pending' | 'succeeded' | 'failed';
+  error: string | null;
 }
 
 const InitialState: InitialStateType = {
-  todoList: []
+  todoList: [],
+  error: null,
+  status: 'idle'
 };
 
 function cleanSuccess(state: Draft<InitialStateType>): void {
   state.todoList = [];
+  state.error = null;
+  state.status = 'idle';
 }
 
 function addTodoItem(state: Draft<InitialStateType>): void {
@@ -49,8 +56,21 @@ const toolkitSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(cleanAction, cleanSuccess);
+
+    builder.addCase(fetchTodoList.pending, (state: Draft<InitialStateType>) => {
+      state.status = 'pending';
+      state.error = null;
+    });
+    builder.addCase(fetchTodoList.fulfilled, (state: Draft<InitialStateType>, action: PayloadAction<TodoData[]>) => {
+      if (action.payload) state.todoList = action.payload;
+      state.status = 'succeeded';
+    });
+    builder.addCase(fetchTodoList.rejected, (state: Draft<InitialStateType>, action: PayloadAction<FetchTodoError>) => {
+      if (action.payload) state.error = action.payload.message;
+      state.status = 'failed';
+    });
   }
 });
 
 export const reducerToolkit = toolkitSlice.reducer;
-export const ToolkitActions = { ...toolkitSlice.actions, cleanAction };
+export const ToolkitActions = { ...toolkitSlice.actions, cleanAction, fetchTodoList };

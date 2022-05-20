@@ -1,13 +1,12 @@
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/core';
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
-import { Button, FlatList } from 'react-native';
+import { FlatList, Pressable, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootStateType, AppDispatchType } from '../../Redux/Toolkit';
+import { BottomAlert, TodoItem } from '../../Component';
 import { ToolkitActions, ToolkitSelectors } from '../../Redux/Toolkit';
 import { TodoData } from '../../TodoData';
-import { BottomAlert } from '../BottomAlert/BottomAlert';
-import TodoItem from '../TodoItem/TodoItem';
 import styles from './TodoToolkitStyle';
 
 export function TodoList(): React.ReactElement {
@@ -48,7 +47,21 @@ export function TodoList(): React.ReactElement {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => <Button title="add" onPress={() => dispatch(ToolkitActions.addTodoItem())} />
+      headerRight: () => {
+        return (
+          <View style={styles.btnContainer}>
+            <Pressable style={styles.btnView} onPress={() => dispatch(ToolkitActions.addTodoItem())}>
+              <Text style={styles.btnText}>Add</Text>
+            </Pressable>
+            <Pressable style={styles.btnView} onPress={() => dispatch(ToolkitActions.fetchTodoList(10))}>
+              <Text style={styles.btnText}>Fetch</Text>
+            </Pressable>
+            <Pressable style={styles.btnView} onPress={() => dispatch(ToolkitActions.cleanAction())}>
+              <Text style={styles.btnText}>Clear</Text>
+            </Pressable>
+          </View>
+        );
+      }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation]);
